@@ -1,14 +1,18 @@
 from src.usecases import IBaseUseCase
 from src.usecases.sampleUseCase.dto import SampleRequestDTO, SampleResponseDTO
+from src.repositories.sampleRepository import SampleRepository
 
 
 class SampleUseCase(IBaseUseCase):
     def __init__(self, req: SampleRequestDTO):
         self.req = req
+        self.repo = SampleRepository(self.req.param)
 
     def execute(self) -> SampleResponseDTO:
-        print(self.req.param)
-        return SampleResponseDTO(status=True)
+        res = self.repo.getOperation(self.req.param)
+        if res.key == "Saved":
+            return SampleResponseDTO(status=True)
+        return SampleResponseDTO(status=False)
 
 
 if __name__ == "__main__":
