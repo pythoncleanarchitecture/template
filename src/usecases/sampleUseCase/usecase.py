@@ -10,11 +10,10 @@ class SampleUseCase(IBaseUseCase):
 
     def execute(self) -> SampleResponseDTO:
         res = self.repo.getOperation(self.req.param)
-        if res.key == "Saved":
-            return SampleResponseDTO(status=True)
-        return SampleResponseDTO(status=False)
+        return SampleResponseDTO(data=res)
 
 
 if __name__ == "__main__":
     uc = SampleUseCase(req=SampleRequestDTO(param="Test this"))
-    uc.execute()
+    res = uc.execute()
+    print(res.data.key)
